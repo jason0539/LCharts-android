@@ -46,6 +46,8 @@ public class FramBase extends LBaseView implements GestureDetector.OnGestureList
 
     protected int mStartIndex = 0;
 
+    protected boolean needVerticalLine = true;
+
     public FramBase(Context context) {
         this(context, null);
     }
@@ -89,19 +91,21 @@ public class FramBase extends LBaseView implements GestureDetector.OnGestureList
 
         canvas.drawLine(0, 0, mBorderLandLength, 0, mBorderLinePaint);
 
-        canvas.drawLine(0, 0, 0, mBorderVerticalLength, mBorderLinePaint);
+        if (needVerticalLine) {
+            canvas.drawLine(0, 0, 0, mBorderVerticalLength, mBorderLinePaint);
 
-        canvas.drawText("0", -mTextPaint.measureText("0") - 2, 0, mTextPaint);
+            canvas.drawText("0", -mTextPaint.measureText("0") - 2, 0, mTextPaint);
 
-        canvas.drawText(String.valueOf(maxData / 2),
-                -mTextPaint.measureText(String.valueOf(maxData / 2)) - 2,
-                mBorderVerticalLength / 2,
-                mTextPaint);
+            canvas.drawText(String.valueOf(maxData / 2),
+                    -mTextPaint.measureText(String.valueOf(maxData / 2)) - 2,
+                    mBorderVerticalLength / 2,
+                    mTextPaint);
 
-        canvas.drawText(String.valueOf(Math.round(maxData * 1.05)),
-                -mTextPaint.measureText(String.valueOf(Math.round(maxData * 1.05))) - 2,
-                mBorderVerticalLength,
-                mTextPaint);
+            canvas.drawText(String.valueOf(Math.round(maxData * 1.05)),
+                    -mTextPaint.measureText(String.valueOf(Math.round(maxData * 1.05))) - 2,
+                    mBorderVerticalLength,
+                    mTextPaint);
+        }
     }
 
     @Override
@@ -199,4 +203,7 @@ public class FramBase extends LBaseView implements GestureDetector.OnGestureList
         return false;
     }
 
+    public void setNeedVerticalLine(boolean need) {
+        needVerticalLine = need;
+    }
 }
