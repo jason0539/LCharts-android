@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         barChartView.setBarColor(redColor);
         barChartView.setNeedVerticalLine(false);
         barChartView.setDataAppendDesc("min");
+        barChartView.setAverageLine(0.5f);
         barChartView.setDescPadding(40);
         barChartView.setDatas(datas, description);
     }

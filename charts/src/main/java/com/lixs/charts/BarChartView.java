@@ -3,7 +3,9 @@ package com.lixs.charts;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -23,6 +25,10 @@ public class BarChartView extends FramBase implements GestureDetector.OnGestureL
 
     private String mDataAppendDesc;//顶部显示的data数字后面添加单位
     private int mDescPadding = dp2px(15);//底部的desc距离底线的距离
+
+    private Paint averageLinePaint;
+    private Path mPath;
+    private float averageLine = 0;//平均线高度的比例
 
     public BarChartView(Context context) {
         this(context, null);
@@ -47,6 +53,12 @@ public class BarChartView extends FramBase implements GestureDetector.OnGestureL
         mBorderLinePaint.setStyle(Paint.Style.STROKE);
         mBorderLinePaint.setStrokeWidth(dp2px(1));
         mBorderLinePaint.setAntiAlias(true);
+
+        averageLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        averageLinePaint.setColor(defaultBorderColor);
+        averageLinePaint.setStyle(Paint.Style.STROKE);
+        averageLinePaint.setStrokeWidth(dp2px(1));
+        averageLinePaint.setPathEffect(new DashPathEffect(new float[] {15, 5}, 0));
 
         mDataLinePaint = new Paint();
         mDataLinePaint.setAntiAlias(true);
@@ -81,6 +93,14 @@ public class BarChartView extends FramBase implements GestureDetector.OnGestureL
 
     private void drawDataLines(Canvas canvas) {
         perBarW = mBorderLandLength / mDrawNum;
+
+        if (averageLine != 0) {
+            float yPos = averageLine * mBorderVerticalLength;
+            mPath = new Path();
+            mPath.moveTo(0,yPos);
+            mPath.lineTo(mBorderLandLength, yPos);
+            canvas.drawPath(mPath, averageLinePaint);
+        }
 
         for (int i = 0; i < mDrawNum; i++) {
             float x = (i + 0.5f) * perBarW;
@@ -147,6 +167,9 @@ public class BarChartView extends FramBase implements GestureDetector.OnGestureL
 
     public void setDescPadding(int padding){
         mDescPadding = padding;
-        postInvalidate();
+    }
+
+    public void setAverageLine(float averageLine){
+        this.averageLine = averageLine;
     }
 }
