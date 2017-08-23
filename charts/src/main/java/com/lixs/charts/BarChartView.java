@@ -22,7 +22,7 @@ public class BarChartView extends FramBase implements GestureDetector.OnGestureL
     private int mDrawNum;
 
     private String mDataAppendDesc;//顶部显示的data数字后面添加单位
-    private int mDescPadding = dp2px(8);//底部的desc距离底线的距离
+    private int mDescPadding = dp2px(15);//底部的desc距离底线的距离
 
     public BarChartView(Context context) {
         this(context, null);
