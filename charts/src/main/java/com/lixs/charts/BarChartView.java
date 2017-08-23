@@ -20,7 +20,9 @@ public class BarChartView extends FramBase implements GestureDetector.OnGestureL
     private boolean hasMore = false;
     private float perBarW;
     private int mDrawNum;
-    private String mDataAppendDesc;
+
+    private String mDataAppendDesc;//顶部显示的data数字后面添加单位
+    private int mDescPadding = dp2px(8);//底部的desc距离底线的距离
 
     public BarChartView(Context context) {
         this(context, null);
@@ -98,7 +100,7 @@ public class BarChartView extends FramBase implements GestureDetector.OnGestureL
             if (mDescription.get(i) != null)
                 canvas.drawText(mTruelyDescription.get(i),
                         x - mTextPaint.measureText(mTruelyDescription.get(i)) / 2,
-                        mPadding,
+                        mDescPadding,
                         mTextPaint);
 
         }
@@ -141,5 +143,10 @@ public class BarChartView extends FramBase implements GestureDetector.OnGestureL
 
     public void setDataAppendDesc(String mDataAppendDesc) {
         this.mDataAppendDesc = mDataAppendDesc;
+    }
+
+    public void setDescPadding(int padding){
+        mDescPadding = padding;
+        postInvalidate();
     }
 }

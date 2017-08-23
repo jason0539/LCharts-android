@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         barChartView.setCanClickAnimation(true);
         barChartView.setBarColor(redColor);
         barChartView.setDataAppendDesc("min");
+        barChartView.setDescPadding(40);
         barChartView.setDatas(datas, description);
     }
 
