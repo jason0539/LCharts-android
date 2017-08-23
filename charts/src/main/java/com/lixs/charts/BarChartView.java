@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 
@@ -19,6 +20,7 @@ public class BarChartView extends FramBase implements GestureDetector.OnGestureL
     private boolean hasMore = false;
     private float perBarW;
     private int mDrawNum;
+    private String mDataAppendDesc;
 
     public BarChartView(Context context) {
         this(context, null);
@@ -84,7 +86,8 @@ public class BarChartView extends FramBase implements GestureDetector.OnGestureL
 
             canvas.drawLine(x, 0, x, y * scale, mDataLinePaint);
 
-            String perData = String.valueOf(Math.round(scale < 1 ? Math.round(mTruelyDrawDatas.get(i) * scale) : mTruelyDrawDatas.get(i)));
+            String perData = String.valueOf(Math.round(scale < 1 ? Math.round(mTruelyDrawDatas.get(i) * scale) : mTruelyDrawDatas.get(i)))
+                    + (TextUtils.isEmpty(mDataAppendDesc)? "" : mDataAppendDesc);
 
             canvas.drawText(perData,
                     x - mTextPaint.measureText(perData) / 2,
@@ -133,7 +136,10 @@ public class BarChartView extends FramBase implements GestureDetector.OnGestureL
 
     public void setBarColor(int color) {
         this.defaultLineColor = color;
+        initPaint();
     }
 
-
+    public void setDataAppendDesc(String mDataAppendDesc) {
+        this.mDataAppendDesc = mDataAppendDesc;
+    }
 }

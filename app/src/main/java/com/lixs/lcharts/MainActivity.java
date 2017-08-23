@@ -128,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
         barChartView.setShowNum(6);
         //点击动画开启
         barChartView.setCanClickAnimation(true);
+        barChartView.setBarColor(redColor);
+        barChartView.setDataAppendDesc("min");
         barChartView.setDatas(datas, description);
     }
 
