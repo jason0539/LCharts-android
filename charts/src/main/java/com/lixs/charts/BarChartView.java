@@ -88,7 +88,9 @@ public class BarChartView extends FramBase implements GestureDetector.OnGestureL
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawDataLines(canvas);
+        synchronized (BarChartView.class) {
+            drawDataLines(canvas);
+        }
     }
 
     private void drawDataLines(Canvas canvas) {
@@ -135,25 +137,27 @@ public class BarChartView extends FramBase implements GestureDetector.OnGestureL
 
 
     public void setDatas(List<Double> mDatas, List<String> mDesciption) {
-        this.mDatas.clear();
-        this.mDatas.addAll(mDatas);
-        this.mTruelyDrawDatas.clear();
+        synchronized (BarChartView.class) {
+            this.mDatas.clear();
+            this.mDatas.addAll(mDatas);
+            this.mTruelyDrawDatas.clear();
 
-        this.mDescription.clear();
-        this.mDescription.addAll(mDesciption);
-        this.mTruelyDescription.clear();
+            this.mDescription.clear();
+            this.mDescription.addAll(mDesciption);
+            this.mTruelyDescription.clear();
 
-        if (showNum > mDatas.size()) {
-            hasMore = false;
-            this.mTruelyDrawDatas.addAll(mDatas);
-            this.mTruelyDescription.addAll(mDesciption);
-        } else {
-            hasMore = true;
-            this.mTruelyDrawDatas.addAll(mDatas.subList(0, showNum));
-            this.mTruelyDescription.addAll(mDesciption.subList(0, showNum));
+            if (showNum > mDatas.size()) {
+                hasMore = false;
+                this.mTruelyDrawDatas.addAll(mDatas);
+                this.mTruelyDescription.addAll(mDesciption);
+            } else {
+                hasMore = true;
+                this.mTruelyDrawDatas.addAll(mDatas.subList(0, showNum));
+                this.mTruelyDescription.addAll(mDesciption.subList(0, showNum));
+            }
+
+            animator.start();
         }
-
-        animator.start();
     }
 
     public void setBarColor(int color) {
