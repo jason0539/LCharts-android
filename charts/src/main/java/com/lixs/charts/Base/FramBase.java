@@ -11,9 +11,8 @@ import android.view.MotionEvent;
 
 import com.lixs.charts.R;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.Vector;
 
 public class FramBase extends LBaseView implements GestureDetector.OnGestureListener {
     private GestureDetector detector;
@@ -33,10 +32,10 @@ public class FramBase extends LBaseView implements GestureDetector.OnGestureList
     protected int mTitleTextSize = 22;
     protected int mLabelTextSize = 20;
 
-    protected List<Double> mDatas;
-    protected List<Double> mTruelyDrawDatas;
-    protected List<String> mDescription;
-    protected List<String> mTruelyDescription;
+    protected Vector<Double> mDatas;
+    protected Vector<Double> mTruelyDrawDatas;
+    protected Vector<String> mDescription;
+    protected Vector<String> mTruelyDescription;
 
     protected int showNum = 6;
 
@@ -64,10 +63,10 @@ public class FramBase extends LBaseView implements GestureDetector.OnGestureList
     private void init(Context context, AttributeSet attrs) {
         detector = new GestureDetector(context, this);
 
-        mDatas = new ArrayList<>();
-        mDescription = new ArrayList<>();
-        mTruelyDrawDatas = new ArrayList<>();
-        mTruelyDescription = new ArrayList<>();
+        mDatas = new Vector<>();
+        mDescription = new Vector<>();
+        mTruelyDrawDatas = new Vector<>();
+        mTruelyDescription = new Vector<>();
         TypedArray t = context.obtainStyledAttributes(attrs, R.styleable.barCharts);
         defaultBorderColor = t.getColor(R.styleable.barCharts_borderColor, defaultBorderColor);
         defaultLineColor = t.getColor(R.styleable.barCharts_lineColor, defaultLineColor);
@@ -163,28 +162,28 @@ public class FramBase extends LBaseView implements GestureDetector.OnGestureList
         //往左滑动
         if (distanceX > dp2px(6)) {
             if (mStartIndex >= mDatas.size() - showNum) {
-                mTruelyDrawDatas = mDatas.subList(mDatas.size() - showNum, mDatas.size());
-                mTruelyDescription = mDescription.subList(mDatas.size() - showNum, mDatas.size());
+                mTruelyDrawDatas = new Vector<>(mDatas.subList(mDatas.size() - showNum, mDatas.size()));
+                mTruelyDescription = new Vector<>(mDescription.subList(mDatas.size() - showNum, mDatas.size()));
             } else {
                 mStartIndex++;
                 if (mStartIndex > mDatas.size() - showNum)
                     mStartIndex = mDatas.size() - showNum;
-                mTruelyDrawDatas = mDatas.subList(mStartIndex, mStartIndex + showNum);
-                mTruelyDescription = mDescription.subList(mStartIndex, mStartIndex + showNum);
+                mTruelyDrawDatas = new Vector<>(mDatas.subList(mStartIndex, mStartIndex + showNum));
+                mTruelyDescription = new Vector<>(mDescription.subList(mStartIndex, mStartIndex + showNum));
             }
         }
         //往右滑动
         else if (Math.abs(distanceX) > dp2px(6)) {
             if (mStartIndex <= 0) {
-                mTruelyDrawDatas = mDatas.subList(0, showNum);
-                mTruelyDescription = mDescription.subList(0, showNum);
+                mTruelyDrawDatas = new Vector<>(mDatas.subList(0, showNum));
+                mTruelyDescription = new Vector<>(mDescription.subList(0, showNum));
 
             } else if (mStartIndex <= mDatas.size()) {
                 mStartIndex--;
                 if (mStartIndex < 0) mStartIndex = 0;
                 if (mStartIndex + showNum < mDatas.size()) {
-                    mTruelyDrawDatas = mDatas.subList(mStartIndex, mStartIndex + showNum);
-                    mTruelyDescription = mDescription.subList(mStartIndex, mStartIndex + showNum);
+                    mTruelyDrawDatas = new Vector<>(mDatas.subList(mStartIndex, mStartIndex + showNum));
+                    mTruelyDescription = new Vector<>(mDescription.subList(mStartIndex, mStartIndex + showNum));
                 }
             }
         }

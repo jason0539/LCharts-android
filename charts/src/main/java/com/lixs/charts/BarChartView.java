@@ -88,9 +88,7 @@ public class BarChartView extends FramBase implements GestureDetector.OnGestureL
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        synchronized (BarChartView.class) {
-            drawDataLines(canvas);
-        }
+        drawDataLines(canvas);
     }
 
     private void drawDataLines(Canvas canvas) {
@@ -137,7 +135,6 @@ public class BarChartView extends FramBase implements GestureDetector.OnGestureL
 
 
     public void setDatas(List<Double> mDatas, List<String> mDesciption) {
-        synchronized (BarChartView.class) {
             this.mDatas.clear();
             this.mDatas.addAll(mDatas);
             this.mTruelyDrawDatas.clear();
@@ -157,7 +154,6 @@ public class BarChartView extends FramBase implements GestureDetector.OnGestureL
             }
 
             animator.start();
-        }
     }
 
     public void setBarColor(int color) {

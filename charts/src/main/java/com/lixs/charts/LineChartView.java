@@ -12,6 +12,7 @@ import android.view.GestureDetector;
 import com.lixs.charts.Base.FramBase;
 
 import java.util.List;
+import java.util.Vector;
 
 /**
  * lineChart
@@ -120,8 +121,8 @@ public class LineChartView extends FramBase implements GestureDetector.OnGesture
 
 
     public void setDatas(List<Double> mDatas, List<String> mDesciption) {
-        this.mDatas = mDatas;
-        this.mDescription = mDesciption;
+        this.mDatas = new Vector<>(mDatas);
+        this.mDescription = new Vector<>(mDesciption);
 
         if (showNum > mDatas.size()) {
             this.mTruelyDrawDatas.addAll(mDatas);
